@@ -6,3 +6,4 @@ event.on("checkpage",(sc,msg) => {
 })
 
 event.emit("checkpage",200,"ok");
+////// data,end,error,finish evnts
