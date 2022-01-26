@@ -104,3 +104,15 @@ console.log(result);
         console.log(err);
     }
 }
+
+//createDocument();
+
+const getDocument = async () => {
+    const result = await Playlist.find({name:'React native'}).select({name:1});
+    console.log(result);
+}
+
+
+
+
+getDocument();
