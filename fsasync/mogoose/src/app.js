@@ -1,15 +1,40 @@
+//connect to database
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/testchanel",{useNewUrlParser: true})
 .then( ()=>console.log("coonnecttion succsess")).catch((err)=>console.log(err));
+////end**-----------------------------------------------------------------------
 //schema 
 const playlistSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:true
+        required:true,
+        unique:true,
+        uppercase:true,
+        trim:true,
+        minlength:3,
+        maxlength:30,
+        match:[/@/,'this is not validate']
     },
 
-    ctype:String,
-    videos:Number,
+    ctype:{
+      type:  String,
+      required:true,
+      lowercase:true,
+      enum:["frontend","backend","database"]
+    },
+    videos:{
+        type:Number,
+        required:true,
+        // validate(value){
+        //     if(value<0){
+        //         throw new Error("videos count never negative")
+        //     }
+        // }
+        validator:function(value){
+            return value.length < 0;
+        },
+        message: 'is not valid'
+    },
     author:String,
     active:Boolean,
     date:{
@@ -25,9 +50,9 @@ const createDocument = async () => {
     try{
 const reactPlaylist =  new Playlist({
 
-      name:"Angular",
+      name:"reactjs                    ",
     ctype:"front-end",
-    videos:8,
+    videos:-90,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -35,9 +60,9 @@ const reactPlaylist =  new Playlist({
 })
 const mongodbPlaylist =  new Playlist({
 
-      name:"Angular",
-    ctype:"front-end",
-    videos:8,
+      name:"mongodb",
+    ctype:"backend",
+    videos:18,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -45,9 +70,9 @@ const mongodbPlaylist =  new Playlist({
 })
 const monogoosePlaylist =  new Playlist({
 
-      name:"Angular",
-    ctype:"front-end",
-    videos:8,
+      name:"mongOose",
+    ctype:"database",
+    videos:89,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -55,9 +80,9 @@ const monogoosePlaylist =  new Playlist({
 })
 const expressPlaylist =  new Playlist({
 
-      name:"Angular",
-    ctype:"front-end",
-    videos:8,
+      name:"Expressjs",
+    ctype:"Back-end",
+    videos:81,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -65,9 +90,9 @@ const expressPlaylist =  new Playlist({
 })
 const nodejsPlaylist =  new Playlist({
 
-      name:"Angular",
-    ctype:"front-end",
-    videos:8,
+      name:"nodejs",
+    ctype:"back-end",
+    videos:87,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -75,9 +100,9 @@ const nodejsPlaylist =  new Playlist({
 })
 const jsPlaylist =  new Playlist({
 
-      name:"Angular",
-    ctype:"front-end",
-    videos:8,
+      name:"javascript",
+    ctype:"back-end",
+    videos:28,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -85,9 +110,9 @@ const jsPlaylist =  new Playlist({
 })
 const NextjsPlaylist =  new Playlist({
 
-      name:"Angular",
+      name:"Nextjs",
     ctype:"front-end",
-    videos:8,
+    videos:86,
     author:"thapa bhai",
     active:true,
     date:2022-1-2,
@@ -105,14 +130,50 @@ console.log(result);
     }
 }
 
-//createDocument();
+createDocument();
 
-const getDocument = async () => {
-    const result = await Playlist.find({name:'React native'}).select({name:1});
-    console.log(result);
-}
+// const getDocument = async () => {
+//     const result = await Playlist.find({ctype:'front-end'}).select({name:1}).sort({name:1});
+
+//     console.log(result);
+// }
 
 
+///delete document
 
+// const deleteDocuments = async (name) => {
+//     try{
 
-getDocument();
+//           const result = await  Playlist.deleteOne({name})
+//           console.log(result);
+        
+//           }catch(err){
+//         console.log(err);
+//     }
+  
+// }
+
+//  deleteDocuments('javascript')
+
+//updateDocument
+
+// const updateDocuments = async (name) => {
+//     try{
+
+//           const result = await  Playlist.findByIdAndUpdate({name},{
+        
+//         $set: {
+//             name:"ReactJs",
+//             active:false
+//         }
+//     })
+//     console.log(result);
+//     }catch(err){
+//         console.log(err);
+//     }
+  
+// }
+
+// updateDocuments('Reactjs')
+
+//getDocument();
