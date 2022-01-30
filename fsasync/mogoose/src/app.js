@@ -1,5 +1,6 @@
 //connect to database
 const mongoose = require("mongoose");
+const  validator = require("validator");
 mongoose.connect("mongodb://localhost:27017/testchanel",{useNewUrlParser: true})
 .then( ()=>console.log("coonnecttion succsess")).catch((err)=>console.log(err));
 ////end**-----------------------------------------------------------------------
@@ -7,20 +8,20 @@ mongoose.connect("mongodb://localhost:27017/testchanel",{useNewUrlParser: true})
 const playlistSchema = new mongoose.Schema({
     name:{
         type:String,
-        required:true,
-        unique:true,
-        uppercase:true,
-        trim:true,
-        minlength:3,
-        maxlength:30,
-        match:[/@/,'this is not validate']
+        // required:true,
+        // unique:true,
+        // uppercase:true,
+        // trim:true,
+        // minlength:3,
+        // maxlength:30,
+        // match:[/@/,'this is not validate']
     },
 
     ctype:{
       type:  String,
-      required:true,
-      lowercase:true,
-      enum:["frontend","backend","database"]
+    //   required:true,
+    //   lowercase:true,
+    //   enum:["frontend","backend","database"]
     },
     videos:{
         type:Number,
@@ -29,13 +30,23 @@ const playlistSchema = new mongoose.Schema({
         //     if(value<0){
         //         throw new Error("videos count never negative")
         //     }
-        // }
+        // // }
         validator:function(value){
             return value.length < 0;
         },
         message: 'is not valid'
     },
     author:String,
+    email:{
+      type:  String,
+      required:true,
+      validate(value){
+          if(!validator.isEmail(value)){
+              throw new Error("Email is not valid")
+          }
+      }
+
+    },
     active:Boolean,
     date:{
         type:Date,
@@ -54,6 +65,7 @@ const reactPlaylist =  new Playlist({
     ctype:"front-end",
     videos:-90,
     author:"thapa bhai",
+    email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
@@ -64,6 +76,7 @@ const mongodbPlaylist =  new Playlist({
     ctype:"backend",
     videos:18,
     author:"thapa bhai",
+      email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
@@ -74,6 +87,7 @@ const monogoosePlaylist =  new Playlist({
     ctype:"database",
     videos:89,
     author:"thapa bhai",
+      email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
@@ -84,6 +98,7 @@ const expressPlaylist =  new Playlist({
     ctype:"Back-end",
     videos:81,
     author:"thapa bhai",
+      email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
@@ -94,6 +109,7 @@ const nodejsPlaylist =  new Playlist({
     ctype:"back-end",
     videos:87,
     author:"thapa bhai",
+      email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
@@ -104,6 +120,7 @@ const jsPlaylist =  new Playlist({
     ctype:"back-end",
     videos:28,
     author:"thapa bhai",
+      email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
@@ -114,6 +131,7 @@ const NextjsPlaylist =  new Playlist({
     ctype:"front-end",
     videos:86,
     author:"thapa bhai",
+      email:"ro.@gm",
     active:true,
     date:2022-1-2,
   
